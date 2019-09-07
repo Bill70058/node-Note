@@ -1,0 +1,26 @@
+//-
+    依赖文件： j.js
+    作用：演示多行同级内容（script.），多行同级内容单行书写（|）
+    作者：bill
+html
+    head
+        title
+        script.
+            window.onload = function() {
+                document.querySelector('div').style.background='green';
+            }
+
+    body
+        div
+            |aaaa
+            |bbbb
+             
+        div 
+            aaaa 如果不加‘|’则不会归为div标签下的内容而会归为一个新的标签
+            bbbb
+
+        div.
+            aaaa
+            bbbb
+
+            

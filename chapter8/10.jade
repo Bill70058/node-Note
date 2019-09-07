@@ -1,0 +1,19 @@
+//-
+    依赖文件：j.js
+    作用：演示jade中的 switch case 的写法，语法不变，关键字变为 case -> switch, when -> case
+    作者：bill
+doctype
+html
+    head
+        title
+    body
+        -var a = 1000
+        case a
+            when 10
+                div aaaaaaa
+            when 20
+                div bbbbbbb
+            when 30
+                div ccccccc
+            default
+                div wwwwwwww

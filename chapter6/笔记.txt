@@ -1,0 +1,61 @@
+cookie -> 时间限制 临时储存
+特点弊端 -> 小 4kb 
+        -> 不安全
+
+优势     -> 全部兼容
+         -> 可以记录痕迹
+
+用户名    -> 密码 如果勾选了自动登录存到cookie里面
+服务器端 给你 客户端 -> 种了一个cookie (临时记录功能)
+
+字节(b) -> kb -> mb -> gb -> tb
+1024
+
+汉字 - 2字节2b
+英文 - 1字节
+
+2000多个汉字
+
+
+服务端 可以给 前端 cookie
+地址 path /aaa 需要在地址栏添加
+res.cookie(key, value, {path: 路径, maxAge: 毫秒})
+
+如果要从前端获取cookie数据需要用到插件cookie-parser
+这个插件会自动将前端获取到的cookie数据加工成为json对象形式，如果
+没有使用这个插件后端获取到的是 undefined
+
+
+cookie的添加：
+res.cookie(key, value, {path:'/aaa', maxAge: 1000});
+
+cookie的获取：
+var cookieParser = ('cookie-parser');
+req.cookies.'key';
+
+cookie的删除：
+res.clearCookie('key');
+
+删除所有的cookie值：
+
+var json = req.cookies;
+for(var i for json) {
+    res.clearCookie(i);
+}
+
+
+cookie的加密：
+
+s%3A123.7IAuGhfe%2Fp7njFZf6kB68K%2BALFzFeUEg9W8zUtRaVS4
+
+1、需要个签名-密钥
+req.secret = 'adsfg';
+2、将cookie设置为有密钥状态
+res.cookie('test', '123', {signed: true});
+3、将密钥添加到cookie解析方法内并且用有符号cookies方法解析
+server.use(cookieParser('asdfg'));
+console.log(req.signedCookies);
+
+注意： 一旦将密钥添加到cookie解析方法内的话，获取cookie无加密的key的时候就只能用无加密获取方法获取，获取有加密的cookie的key值的话就只能用有加密获取方法获取，各司其职
+console.log(req.cookies);       // 无加密获取方法获取无加密的cookie的key
+console.log(req.signedCookies); // 有加密获取方法获取有加密的cookie的key值

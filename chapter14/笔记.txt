@@ -1,0 +1,12 @@
+form
+ajax
+    -> 
+    地址
+    后台 可以把地址给前台
+    前台可以通过这个地址展示
+
+FromData - > 类似于from表单
+append('name',files);
+append('name2',files); -> 可以传多个对象
+ajax 利用 post 方式上传
+send(FromData); 数据发送至前端就完成了

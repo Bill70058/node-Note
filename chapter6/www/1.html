@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>Document</title>
+   <!-- <script src="../../ajax.js"></script> -->
+   <style>
+       *{
+           margin: 0;
+           padding: 0;
+           list-style: none;
+       }
+   </style>
+</head>
+<body>
+    <span id="sp"></span>
+    <div id="div">
+      user: <input type="text" id="user"><br>
+    pass: <input type="text" id="pass"><br>
+    <button id="btn">登录</button>
+    <input type="checkbox" id="c">自动登录  
+    </div>
+    
+
+    <script>
+        ajax({
+            url: 'http://localhost:1234/home',
+            type: 'get',
+            success: function(data) {
+                var data = eval('('+data+')');
+                console.log(data, data.user, data.pass);
+                user.value = data.user;
+                pass.value = data.pass;
+
+                setTimeout(() => {
+                    ajax({
+                        url: 'http://localhost:1234/login',
+                        type: 'get',
+                        data: {
+                            user: user.value,
+                            pass: pass.value,
+                        },
+                        success: function(data) {
+                            // alert(data);
+                            if(data == 'ok') {
+                                div.style.display = 'none';
+                                sp.style.display = 'block';
+                                sp.innerHTML = '欢迎您'+user.value;
+                            }
+                        }
+                    })
+                }, 1000);
+            }
+        })
+
+                //传入一个ajax对象，将数据打包传入比较方便
+                function ajax(json) {
+            console.log(json.data); //=> data传入是{user:'bill',pass:'123456'}的格式，需要转换成 user=bill&pass=123456才能接入open的url里
+            var ajax = new XMLHttpRequest(); 
+
+        
+        if(json.type == 'get') {
+        ajax.open(json.type, json.url+'?'+ JsonToString(json), true);
+        // console.log('?user='+user.value + '&pass='+ pass.value);
+        // console.log(JsonToString(json));
+
+        //将数据发送
+        ajax.send();
+        }else if(json.type == 'post') {
+            ajax.open(json.type, json.url, true); 
+            ajax.setRequestHeader("Content-Type", 
+            "application/x-www-form-urlencoded");
+            //在post中，数据是放在send()里面的
+            ajax.send(JsonToString(json));
+        }
+
+
+        //当状态码改变时的函数
+        ajax.onreadystatechange=function() {
+            if(ajax.readyState == 4) {
+                if(ajax.status >= 200 && ajax.status < 300 || ajax.status == 304) {
+                    //console.log(ajax.responseText);
+                    json.success(ajax.responseText);
+                }else{
+                    //console.log('服务器错误');
+                    json.error();
+                }
+            }
+        }
+
+        console.log(ajax.responseText);  
+        }
+
+        function JsonToString(json) {
+            var arr = [];
+            for(var i in json.data) {
+                //console.log(i+json.data[i]);  //=> userbill,pass123456
+                arr.push(i+'='+json.data[i]);//字符串转数组
+            }
+            //console.log(arr);          
+            //console.log(arr.join('&'));//数组转字符串
+            return arr.join('&');
+        }
+    </script>
+</body>
+</html>

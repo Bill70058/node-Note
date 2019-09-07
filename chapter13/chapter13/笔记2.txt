@@ -1,0 +1,23 @@
+WHERE %% ||
+
+登陆 user pass
+
+WHERE 可以继续家条件 AND(&&) 和 OR(||)
+
+SELECT USER, pass FROM `表名` WHERE user="sky" AND pass="123456"
+
+增 INSERT INTO `表名` (`key`,`key1`) VALUES("value","value1")
+删 DELETE FROM `表名`
+改 UPDATE `表名` SET user="bill",pass="1234";
+查 SELECT * FROM `表名`
+WHERE 子句 ：
+    帮助更精确的定位查询
+但是WHERE 子句只能添加多一个条件
+如果想添加多个条件的话需要用到另两个子句 AND(&&) OR(||)
+AND 和 与JS的（&&）符号一样 所有AND 后的条件都必须满足
+OR 和 JS的（||）符号一样 所有OR 后的条件可有可无
+
+
+navicat 数据库导出与导入
+导出：在navicat中 选择数据库，右键转存sql文件 -> 结构与数据
+导入：在navicat中 选择链接新建一个库 -> 选择库 右键运行sql文件

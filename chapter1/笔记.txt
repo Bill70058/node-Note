@@ -1,0 +1,106 @@
+异步
+
+form表单
+submit 
+
+无刷新交互
+AJAX 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。
+ajax类似于订外卖的过程：
+
+    手机
+    软件
+    地址
+    （钱）- 订单
+    两种结果    -   接单了
+               -   拒单了
+
+    get: 地址栏 - 数据都可视， 不安全， 方便 32kb
+    post: 加密  - 数据不可视，安全， 不方便 2gb
+
+
+    同步：一步一步进行
+    异步：同时进行
+
+    后台语言很多
+    不光有
+    php     .net    java
+    nodeJs
+
+    前端人员 - javaScript html css - 全栈
+
+    php
+    nodeJs -> js写的后台
+    1s     -> 86s
+    200台  -> 400w台
+
+    react   vue -> 基于node
+    webpack -> grunt -gulp  基于node
+
+    http://nodejs.cn
+
+    打开浏览器控制台查看计算机系统多少位：
+    navigator.userAgent
+
+    语言    运行有两种方式
+    内置型  - js
+    编译型  - node
+
+
+    cd      文件地址
+    node    文件名
+
+    
+    request 请求    前台去做的
+    response 响应   后台去做的
+
+    Access-Control-Allow-Origin
+    访问    控制    允许    源点
+
+    如何跨域：
+    跨域    本身不允许前台控制  后台去控制
+    跨域-不在一个域名下的数据请求传输
+
+    1.必须在一个域名下
+    2.后台去控制
+    3.iframe
+
+    ajax状态码 - ajax readyState：
+
+    0 - （未初始化）还没有调用send()方法
+    1 - （载入）已调用send()方法，正在发送请求
+    2 - （载入完成）send()方法执行完成，已经接收到全部响应内容
+    3 - （交互）正在解析响应内容
+    4 - （完成）响应内容解析完成，可以在客户端调用了
+
+    post 可以传输各种各样的数据
+    所以要告诉后台你要传输的数据类型是什么
+
+    querystring -> 解析我们的post数据
+
+    get -> req.url
+    post -> req.on('data', function(data) {});
+         -> req.on('end', function() {
+
+         })
+
+    url -> 能解析 get的请求
+            //querystring.parse(urlLib.parse(data).query);
+            urlLib.parse(data,true)
+            query -> json类型显示   +true
+            query -> 字符串类型显示  no true
+
+    fs -> files -> 文档文件模块
+
+    增：
+    writeFile(名字， 内容， fn);
+
+    删：
+    unlink(名字, fn)
+
+    改：
+    rename(目标名字， 修改名字， fn)
+
+    查：
+    readFile('./'+ 名字, function(err, data) {})
+
+    XMLHttpRequest 用于在后台与服务器交换数据。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新

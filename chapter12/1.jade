@@ -1,0 +1,30 @@
+doctype 
+html 
+    head
+        meta(charset='utf-8')
+        title
+        style.
+            ul,ol{width:100%;float:left;}
+            ul li{float:left;margin:20px;list-style:none;}
+            
+    body
+        -var arr = ['用户', '文章', '新闻'],link=['user','list','news']
+        ul
+            - for(var i = 0; i < arr.length; i++)
+                li
+                    a(href="http://localhost:1234/"+link[i])=arr[i]
+        
+        
+        ol
+            -for(var i = 0; i < dataArr.length; i++)
+                li=dataArr[i]
+
+        ul
+            li
+                a(href="http://localhost:1234/"+linkNode+"/?page="+(needPage<=0?0:(needPage-1))) 上一页
+            -for(var i = 0; i < maxL; i++)
+                li
+                    a(href="http://localhost:1234/"+linkNode+"/?page="+i)=i+1
+
+            li
+                a(href="http://localhost:1234/"+linkNode+"/?page="+(needPage>=maxL-1?maxL-1:(parseInt(needPage)+1))) 下一页

@@ -1,0 +1,11 @@
+//-
+    依赖文件： j.js
+    作用：演示jade中类和css属性用变量填入，或者用快捷方式（.）
+         用变量填入的话，css属性可以用对象形式书写，类可以用数值形式书写
+         renderFile('path',{..., json{width:'200px',height:'100px'},arr:['a','b','c']})
+    作者：bill
+html
+    head
+        title
+    body
+        div.k(style=json, class=arr)

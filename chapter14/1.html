@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>Document</title>
+   <style>
+       #ld{
+           width: 0%;
+           height: 20px;
+           position: absolute;
+           left: 0;
+           bottom: 0;
+           /*渐变*/
+           background: -webkit-linear-gradient(left,#ccc,black);
+       }
+   </style>
+</head>
+<body>
+    <div id="ld"></div>
+    <input type="file" id="file">
+    <button id="tj">提交文件</button>
+    <img src="" id="i">
+    <script>
+        tj.onclick = function() {
+            // console.log(file.files[0]);
+            var oForm = new FormData();
+            //下面这句话将一个名为’files‘的信息内容为’file.files[0]‘的信息放入对象中
+            //            name    信息
+            oForm.append('files', file.files[0]);
+            var xhr = new XMLHttpRequest();
+            //      传输方式    地址                        是否异步传输
+            xhr.open('post','http://localhost:1234/setFiles',true);
+            xhr.onload = function(){
+                //xhr.responseText 是后台传到前台的文本信息
+                // console.log(xhr.responseText);
+                i.src=xhr.responseText;
+            };
+            //ajax 事件  ’upload‘上传中  ‘onprogress’ 进度条
+            xhr.upload.onprogress=function(e){
+                    //           进度加载大小    总大小
+                    //console.log(e.loaded/e.total);//=》 进度
+                    ld.style.width=parseInt(e.loaded/e.total*100)+'%';
+                
+            }
+            xhr.send(oForm);
+        }
+    </script>
+</body>
+</html>

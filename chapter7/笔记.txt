@@ -1,0 +1,27 @@
+jade - nodejs html-模板
+
+1.html hehehe 2.html hahahaha
+<div>
+    {{ a }}
+</div>
+
+jade - 破坏式 侵入式 模板
+<html>
+    <head></head> -> 不用这种方式了
+
+
+---------------------------------
+1、下载jade
+2、render('html');                           -> 解析单个标签
+3、renderFile('./1.jade');                   -> 解析整个文件
+   renderFile('./1.jade', {pretty: true});   -> 解析整个文件并美化
+
+
+---------------------------------
+
+jade中嵌套标准：
+  换行tab键即嵌套
+  标签后空格即添加文字
+  标签添加属性后接括号即可，多个属性用逗号分隔 link(rel="stylesheet", type="text/css")
+  用json格式添加多个属性值时需要加&attributes   div&attributes({class:'a b c', id:'c', "data-parser":'kkk'})
+        -> 也就是 div&attributes({ key:value, key:value }) 的格式

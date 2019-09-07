@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <title>sing in</title>
+</head>
+<body>
+user: <input type="text" id="user"><br>
+pass: <input type="text" id="pass"><br>
+<input type="button" value="sing in" id="btn">
+    
+ <script>
+     var xhr = new XMLHttpRequest();
+     xhr.open('post', 'http://localhost:2132', true); 
+
+     //在post中，数据是放在send()里面的
+     xhr.send('user=bill&pass=123456');
+     xhr.onreadystatechange = function() {
+         if(xhr.onreadyState == 4) {
+            if(xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+                console.log(xhr.responseText); 
+            }
+         }
+     }
+ </script>
+</body>
+</html>

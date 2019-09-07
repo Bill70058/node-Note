@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> 
+    <title>sing in</title>
+</head>
+<body>
+user: <input type="text" id="user"><br>
+pass: <input type="text" id="pass"><br>
+<input type="button" value="sing in" id="btn">
+    
+    <script>
+        btn.onclick=function() {
+                ajax({
+                type: 'get',
+                url: 'http://localhost:9217', 
+                data: {
+                    user: user.value,
+                    pass: pass.value,
+                },
+                success: function(data) {
+                    console.log(data);  
+                   
+                },
+                error: function(err) {
+                    console.log('服务器错误');
+                }
+            })
+
+        }
+        
+
+
+        //传入一个ajax对象，将数据打包传入比较方便
+        function ajax(option) {
+            console.log(option.data); //=> data传入是{user:'bill',pass:'123456'}的格式，需要转换成 user=bill&pass=123456才能接入open的url里
+            var ajax = new XMLHttpRequest(); 
+
+        
+        ajax.open(option.type, option.url+'?user='+user.value + '&pass='+ pass.value, true);
+
+        //将数据发送
+        ajax.send();
+
+
+        //当状态码改变时的函数
+        ajax.onreadystatechange=function() {
+            if(ajax.readyState == 4) {
+                if(ajax.status >= 200 && ajax.status < 300 || ajax.status == 304) {
+                    //console.log(ajax.responseText);
+                    option.success(ajax.responseText);
+                }else{
+                    //console.log('服务器错误');
+                    option.error();
+                }
+            }
+        }
+
+        console.log(ajax.responseText);  
+        }
+
+        function JsonToString(json) {
+            var arr = [];
+            for(var i in option.data) {
+                //console.log(i+option.data[i]);  //=> userbill,pass123456
+                arr.push(i+'='+option.data[i]);//字符串转数组
+            }
+            //console.log(arr);          
+            //console.log(arr.join('&'));//数组转字符串
+            return arr.join('&');
+        }
+    </script>
+</body>
+</html>

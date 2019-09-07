@@ -1,0 +1,28 @@
+router - 路由
+
+router 帮助用户把目录结构分的更详细
+
+百度- 
+将一个个大服务拆分成小服务
+
+router = user 
+router = news
+
+router 将server 细分为更多个类（文件）
+如果像平时那样用server 创建目录的话会将所有的东西塞进里面，尽管你分了很多个目录，但都是在server 大目录下
+而用router 创建的话相当于创建了一个大目录来使用 级别等同于server 
+
+用法：
+    var express = require('express');
+    var server = express();             //以上两步照旧，因为还是要用到server
+
+    var newRouter = express.Router();   //创建一个新的大目录
+    server.listen(1234);                
+    server.use('/new', newRouter);      //设置大目录的访问地址
+    newRouter.use('/send', function(req, res) { //使用大目录，并且为大目录设置小目录访问地址
+        res.send('hello router');
+    });
+
+总结：
+    可以想象为磁盘与文件夹，server 为磁盘，平时使用server 都是创建许多个文件夹放置在里面
+      现在使用router 是分割磁盘，将server 分割些出来，再使用分割后的磁盘放置文件，更好的细分目录

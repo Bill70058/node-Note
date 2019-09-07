@@ -1,0 +1,14 @@
+{
+  "name": "0417-eee-9012",
+  "version": "0.0.2",
+  "description": "随便创建的测试包",
+  "main": "e.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hehehahahoho"
+  ],
+  "author": "bill_k",
+  "license": "ISC"
+}

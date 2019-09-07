@@ -1,0 +1,36 @@
+1、404页面制作
+    如果能读出来页面则res.write(data) 输出
+    如果不能则err 内读出404页面
+
+2、 enctype 属性：
+    属性默认值为：application/x-www-form-urlencoded 发送字符串
+    发送文件应更改为：multipart/form-data
+
+3、body - parser 解析文本
+    multer - 解析文件
+
+4、文件写入：
+    利用 fs.writeFile 可以将文件写出，但是会重名
+
+    在 req 中有 files 属性，该属性的值是一个数组，数组中有个对象
+    对象中有：
+        表单文件名：fieldname
+        上传的文件名：originalname
+        类型：mimetype
+        储存位置路径：destination
+        储存后的文件名：filename
+        储存后的完整路径：path(粗存位置路径+文件名)
+        文件大小：size
+    
+    利用 multer 方法自动写入文件名(哈希值- hash)
+    
+    问题：
+        写出的文件没有类型
+
+    5、path 模块解析文件类型
+        在path 模块中：
+            root：在什么根目录下
+            dir：绝对地址
+            base：文件名+后缀
+            ext：后缀
+            name：文件名

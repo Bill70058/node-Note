@@ -1,0 +1,21 @@
+//-
+    依赖文件：j.js
+    作用：演示代码行的嵌入（-）与同级多行书写结合
+    作者：bill
+doctype
+html
+    head
+        title
+        style.
+            div{
+                width:200px;
+                height:100px;
+            }
+            .div1 {background:red}
+            .div2 {background:black}
+            .div3 {background:green}
+            .div4 {background:#ccc}
+    body
+        -var arr = ['div1', 'div2', 'div3', 'div4']
+        -for(var i = 0; i < arr.length; i++)
+         div(class=arr[i])

@@ -1,0 +1,62 @@
+数据库 -    存数据的库表
+
+mysql - 免费的 
+适用于中小企业
+安全性 - 一般
+
+安装：
+    官网 - 点击community -> mysql on windows -> mysql install -> 滑到最下方，选择大的那个
+
+软件：
+    navicat - 绿色的
+    下载 - 官网下载即可
+    安装 - 默认
+    使用： 
+        + 左上角点击 - 链接
+        + 输入安装时配置的密码
+        + 点击左下方链接测试
+        + 链接成功后点击链接
+        + 在左侧面板数据库名右键 -> 新建数据库
+        + 配置数据库名（随便起）
+        + 字符集（utf8）
+        + 排序规则（utf8_general.ci - 通用的）
+        + 确定
+        + 双击新的数据库名 -> 点击表 -> 右键 -> 新建表
+
+
+数据库：
+    库 - 文件夹
+    表 - 文件
+    主键 - 钥匙图案的（寓意一把钥匙开一把锁 - 唯一的）
+
+    增 = INSERT INTO `表名` (`key`,`key2`,...) VALUES("value","value2",...); 
+    删 = DELETE FROM `表名`
+    改 = UPDATE `表名` SET key='new value' WHERE key='value'
+    查 = SELECT * FROM `表名`
+
+    where - 子句，能够更精准的查找
+    //关键字    关键字 表名  关键字 查询条件：查询表中是否有key为user，value为bill的
+      SELECT * FROM `user` WHERE user="bill"
+
+查询语句：SELECT * FROM `表名`
+其中 ‘*’号是指查询所有的key，现在有ID，user，pass三个key值，如果只想查询user
+SELECT user FROM `user`
+想查询user与pass
+SELECT user,pass FROM `user` -> 查多个字段用逗号隔开
+想查询user与pass，并且user的值为bill的
+SELECT user,pass FROM `user` WHERE user="bill"
+查询一定范围内的数据
+SELECT * FROM `user` WHERE `password`>100
+SELECT * FROM `user` WHERE `password`!=0
+
+删除语句：DELETE FROM `表名`
+直接按照 DELETE FROM `表名` 这个来的话是直接删除整个表，但一般搭配 where 语句精准删除
+DELETE FROM `表名` where 'key'='value'
+
+更改语句：UPDATE `表名` SET key='new value' WHERE key='value'
+更改所有的话去掉where 
+UPDATE `user` SET user='BILL'
+更改多个key值的value,中间用逗号隔开
+UPDATE `user` SET user='BILL',pass='123'
+精准更改
+UPDATE `user` SET user='111' WHERE user='bill'

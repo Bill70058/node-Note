@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>Document</title>
+   <style>
+       *{
+           margin: 0;
+           padding: 0;
+           list-style: none;
+       }
+       #setText{
+           width: 100%;
+           height: 100%;
+           position: absolute;
+           background: #ccc;
+           display: none;
+           top: 0;
+           z-index: 1;
+       }
+
+       #Wztext{
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ccc;
+            text-align: center;
+            display: none;
+       }
+       #ul > li{
+           cursor: pointer;
+           transition: .3s;
+       }
+       #rl>li:hover{color:red};
+   </style>
+</head>
+<body>
+    <input type="button" value="写入文章" id="btSet">
+    <div id="setText">
+        文章名：<input type="text" id="titName"><br>
+        <p>文章内容</p>
+        <textarea id="txt"></textarea><br>
+        <button id="btn">提交</button>
+        <button id="cls" >关闭</button>
+    </div>
+
+    <div id="Wztext"></div>
+    <ul id="ul"></ul>
+    <script>
+
+        document.onclick = function(e) {
+            var ev = e || event;
+            var iTarget = ev.srcElement || ev.target;
+            if(iTarget.nodeName == 'Li') {
+                alert(1);
+            }
+        }
+
+        ajax({
+            url: 'http://localhost:9218/',
+                type: 'get',
+                data: {
+                    titName: titName.value,
+                },
+                success: function(data) {
+                    if(data!= '') {
+                        var allArr = JSON.parse(data);
+                        for(var i = 0; i < allArr.length; i++) {
+                            var oLi = document.createElement('li');
+                            oLi.innerHTML = allArr[i];
+                            ul.appendChild(oLi);
+                        }
+                    }
+                   //console.log(data);
+                }
+        })
+
+        btn.onclick = function() {
+
+            ajax({
+                url: 'http://localhost:9218/',
+                type: 'get',
+                data: {
+                    titName: titName.value,
+                    inner: txt.value,
+                },
+                success: function(data) {
+                   console.log(data);
+                }
+
+            })
+
+            var oLi = document.createElement('li');
+            oLi.innerHTML = titName.value;
+            ul.appendChild(oLi);
+        }
+
+        btSet.onclick = function() {
+            setText.style.display = 'block';
+        }
+        cls.onclick = function() {
+            setText.style.display = 'none';
+        }
+
+                //传入一个ajax对象，将数据打包传入比较方便
+        function ajax(json) {
+            console.log(json.data); //=> data传入是{user:'bill',pass:'123456'}的格式，需要转换成 user=bill&pass=123456才能接入open的url里
+            var ajax = new XMLHttpRequest(); 
+
+        
+        if(json.type == 'get') {
+        ajax.open(json.type, json.url+'?'+ JsonToString(json), true);
+        // console.log('?user='+user.value + '&pass='+ pass.value);
+        // console.log(JsonToString(json));
+
+        //将数据发送
+        ajax.send();
+        }else if(json.type == 'post') {
+            ajax.open(json.type, json.url, true); 
+            ajax.setRequestHeader("Content-Type", 
+            "application/x-www-form-urlencoded");
+            //在post中，数据是放在send()里面的
+            ajax.send(JsonToString(json));
+        }
+
+
+        //当状态码改变时的函数
+        ajax.onreadystatechange=function() {
+            if(ajax.readyState == 4) {
+                if(ajax.status >= 200 && ajax.status < 300 || ajax.status == 304) {
+                    //console.log(ajax.responseText);
+                    json.success(ajax.responseText);
+                }else{
+                    //console.log('服务器错误');
+                    json.error();
+                }
+            }
+        }
+
+        console.log(ajax.responseText);  
+        }
+
+        function JsonToString(json) {
+            var arr = [];
+            for(var i in json.data) {
+                //console.log(i+json.data[i]);  //=> userbill,pass123456
+                arr.push(i+'='+json.data[i]);//字符串转数组
+            }
+            //console.log(arr);          
+            //console.log(arr.join('&'));//数组转字符串
+            return arr.join('&');
+        }
+    </script>
+</body>
+</html>

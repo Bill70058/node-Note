@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>Document</title>
+
+   <style>
+       *{
+           margin: 0;
+           padding: 0;
+       }
+       #topNode{
+           width: 100%;
+           height: 30px;
+           border-bottom: 1px solid black;
+           box-shadow: 0 0 10px #ccc;
+           background: #ccc;
+       }
+       #topNode > button {
+           float: left;
+           padding: 3px;
+           margin-left: 20px;
+           background: white;
+       }
+       #loginNode{
+           width: 300px;
+           height: 400px;
+           border: 1px solid black;
+           position: absolute;
+           left: 0;
+           top: 0;
+           right: 0;
+           bottom: 0;
+           margin: auto;
+           padding-top: 20px;
+           display: none;
+           z-index: 4;
+           background: white;
+       }
+       #cl{
+           position: absolute;
+           top: 10px;
+           right: 10px;
+       }
+       #allNodeDo{
+           width: 100%;
+           height: 100%;
+           position: absolute;
+           left: 0;
+           top: 0;
+           z-index: 1;
+           /*最后一个参数为Alpha，控制透明度*/
+           background: rgba(0, 0, 0, 0.3);
+
+           /*遮罩层，不能显示*/
+           display: none;
+       }
+       #textNode{
+           width: 200px;
+           height: 200px;
+           border: 1px solid black;
+           position: absolute;
+           left: 0;
+           top: 0;
+           right: 0;
+           bottom: 0;
+           margin: auto;
+           background: white;
+           display: none;
+           z-index: 3;
+       }
+       #setText{
+           display: none;
+       }
+       #textNode > input:nth-child(1) {
+           position: absolute;
+           right: 3px;
+           top: 3px;
+       }
+       #textNodeF{
+           width: 100%;
+           /*因为内上边距增加了200*/
+           height:calc(100%-20px);
+           position: absolute;
+           left: 0;
+           top: 0;
+           z-index: 3;
+           display: none;
+           text-align: center;
+           padding-top: 20px;
+           background: #ccc;
+           /*滚动条*/
+           overflow: auto;
+       }
+       #clsNode{
+           position: absolute;
+           right: 10px;
+           top: 10px;
+           z-index: 4;
+           display: none;
+       }
+       ol> li{
+           text-decoration: none;
+           float: left;
+           margin: 20px;
+           list-style: none;
+       }
+       #searchAll{
+           display: none;
+       }
+       #allUser{
+           width: 100%;
+           height: 100%;
+           background: #ccc;
+           z-index: 4;
+           /* position: absolute; */
+       }
+   </style>
+</head>
+<body>
+    <div id="allUser">
+        <ul id="userUl"></ul>
+    </div>
+    <input type="button" id="clsNode" value="关闭">
+    <div id="textNodeF"></div>
+    <div id="allNodeDo"></div>
+    <div id="textNode">
+        <input type="button" value="关闭">
+        文章名：<input type="text" id="fileName"><br>
+        文章内容：
+        <textarea id="txt"></textarea><br>
+        <button id="tjNode">提交</button>
+    </div>
+    <div id="topNode">
+
+        <span id="pNode"></span>
+        <button id="searchAll">查看所有账号</button>
+        <button id="setText">写文章</button>
+        <button id="dl">登录</button>
+        <button id="zc">注册</button>
+    </div>
+    <div id="loginNode">
+        <input type="button" id="cl" value="关闭">
+        用户：<input id="user"><br>
+        密码：<input id="pass"><br>
+        <button id="loginBtn">登录</button>
+        <button id="zcbtn">注册</button>
+    </div>
+    <ul id="ul"></ul>
+    <ol id="ol"></ol>
+    <script>
+
+        ajax({
+            url: 'http://localhost:9220/',
+            type: 'get',
+            success: function(data) {
+                var arr = eval('('+data+')');
+
+                window.bigarrSer = [];
+                var arrSerpg = [];
+                //window.jsonNode = {};
+                for(var i = 0; i < arr.length; i++) {
+                    arrSerpg.push(arr[i]);
+                    if(i > 0) {
+                        if(i%5==0) {
+                        bigarrSer.push(arrSerpg);
+                        arrSerpg = [];
+                        }else {
+                        //上面的判断条件只能分割出满足六个标题数量的数组
+                        //但是如果大数组木满足六的倍数那么就会有标题没分划，下面的判断就是将剩余标题划分为一个数组
+                            if(i == arr.length - 1) {
+                                bigarrSer.push(arrSerpg);
+                            }
+                        }
+                    }
+                }
+                //console.log(bigarrSer);
+
+                for(var i = 0; i < bigarrSer.length; i++) {
+                    var li = document.createElement('li');
+
+                    //为页面跳转增加链接
+                    li.innerHTML = '<a class="changePage" href="javascript">'+ (Number(i)+1) + '</a>';
+                    ol.appendChild(li);
+                }
+
+                //console.log(arr);
+                //循环打印大数组内的第0个小数组，也就是前六个标题
+                for(var i = 0; i < bigarrSer[0].length; i++){
+                    var oLi = document.createElement('li');
+                    oLi.innerHTML = '<a class="textFileA" href="javascript:;">'+arr[i]+'</a>';
+                    ul.appendChild(oLi);
+                }
+            }
+        })
+
+        /**
+         * 查看所有账号
+         **/
+         searchAll.onclick = function(){
+            ajax({
+                url: 'http://localhost:9222/',
+                type: 'get',
+                success: function(data) {
+                    var arr = eval('('+data+')');
+                    for(var i = 0; i < arr.length; i++) {
+                        var oLi = document.createElement('li');
+                        console.log(arr[i]);
+                        oLi.innerHTML = '<span>'+arr[i]+'</span>' + '<a class="needDelete" href="javascript:;">删除</a>';
+                       
+                    
+                        userUl.appendChild(oLi);
+                    }
+                }
+            })
+        }
+
+
+        //事件委托，用于未登录时的显示文章目录
+        document.onclick = function(e) {
+            var ev = e || event;
+            var iTarget = ev.srcElement || ev.target;
+            if(iTarget.className == 'textFileA') {
+                //alert(1);
+                ajax({
+                    url: 'http://localhost:9221',
+                    type: 'get',
+                    data: {
+                        fileName: iTarget.innerHTML,
+                    },
+                    success: function(data) {
+                        textNodeF.style.display = 'block';
+                        clsNode.style.display = 'block';
+                        textNodeF.innerHTML = data;
+                    }
+                })
+            }
+            if(iTarget.className == 'changePage') {
+                ul.innerHTML = ''
+             //循环打印大数组内的第0个小数组，也就是前六个标题
+             for(var i = 0; i < bigarrSer[iTarget.inner-1].length; i++){
+                    var oLi = document.createElement('li');
+                    oLi.innerHTML = '<a class="textFileA" href="javascript:;">'+bigarrSer[iTarget.innerHTML-1][i]+'</a>';
+                    ul.appendChild(oLi);
+                }
+            }
+
+            //管理员删除账号事件委托
+            if(iTarget.className == 'needDelete'){
+                ajax({
+                    url: 'http://localhost:9223/',
+                    type: 'get',
+                    data: {
+                        deleteName: iTarget.parentNode.children[0].innerHTML
+                    },
+                    success: function(data){
+                        alert('删除成功');
+                    }
+                })
+            }
+        }
+
+        clsNode.onclick = function() {
+            textNodeF.style.display = 'none';
+            clsNode.style.display = 'none';
+        }
+
+
+        setText.onclick = function() {
+            allNodeDo.style.display = textNode.style.display = 'block';
+        }
+
+        dl.onclick = zc.onclick = function() {
+           allNodeDo.style.display =  loginNode.style.display = 'block';
+        }
+        cl.onclick = function() {
+            allNodeDo.style.display = loginNode.style.display = 'none';
+        }
+
+        zcbtn.onclick = function() {
+            if(user.value == '' || pass.value == '') {
+                alert('用户名密码不能为空');
+                return;
+            }
+            ajax({
+                url: 'http://localhost:9217/',
+                type: 'get',
+                data: {
+                    user: user.value,
+                    pass: pass.value,
+                },
+                success: function(data) {
+                   alert(data);
+                }
+            })
+        }
+
+        loginBtn.onclick = function() {
+            if(user.value == '' || pass.value == '') {
+                alert('用户名密码不能为空');
+                return;
+            }
+            ajax({
+                url: 'http://localhost:9218/',
+                type: 'get',
+                data: {
+                    user: user.value,
+                    pass: pass.value,
+                },
+                success: function(data) {
+                   alert(data);
+                   if(data == '管理员登录成功'){
+                       zc.style.display = dl.style.display = allNodeDo.style.display
+                        = loginNode.style.display = 'none';
+                        setText.style.display = 'block';
+                        pNode.innerHTML = '尊敬的管理员大人' + user.value;
+                   
+                        searchAll.style.display = 'block';
+                    }
+                   if(data == '登录成功!'){
+                        zc.style.display = dl.style.display = 
+                        allNodeDo.style.display = loginNode.style.display = 'none';
+                        pNode.innerHTML = user.value;
+
+                        setText.style.display = 'block';
+                    }
+                }
+            })
+        }
+
+        tjNode.onclick = function() {
+            ajax({
+                url: 'http://localhost:9219/',
+                type: 'get',
+                data: {
+                    fileName: fileName.value,
+                    inner: txt.value,
+                },
+                success: function(data) {
+                    alert(data);
+                }
+            })
+        }
+
+        document.querySelector('#textNode>input:nth-child(1)').
+        onclick = function() {
+            allNodeDo.style.display = 
+            this.parentNode.style.display = 'none';
+        }
+
+        //传入一个ajax对象，将数据打包传入比较方便
+        function ajax(json) {
+            console.log(json.data); //=> data传入是{user:'bill',pass:'123456'}的格式，需要转换成 user=bill&pass=123456才能接入open的url里
+            var ajax = new XMLHttpRequest(); 
+
+        
+        if(json.type == 'get') {
+        ajax.open(json.type, json.url+'?'+ JsonToString(json), true);
+        // console.log('?user='+user.value + '&pass='+ pass.value);
+        // console.log(JsonToString(json));
+
+        //将数据发送
+        ajax.send();
+        }else if(json.type == 'post') {
+            ajax.open(json.type, json.url, true); 
+            ajax.setRequestHeader("Content-Type", 
+            "application/x-www-form-urlencoded");
+            //在post中，数据是放在send()里面的
+            ajax.send(JsonToString(json));
+        }
+
+
+        //当状态码改变时的函数
+        ajax.onreadystatechange=function() {
+            if(ajax.readyState == 4) {
+                if(ajax.status >= 200 && ajax.status < 300 || ajax.status == 304) {
+                    //console.log(ajax.responseText);
+                    json.success(ajax.responseText);
+                }else{
+                    //console.log('服务器错误');
+                    json.error && json.error();
+                }
+            }
+        }
+
+        console.log(ajax.responseText);  
+        }
+
+        function JsonToString(json) {
+            var arr = [];
+            for(var i in json.data) {
+                //console.log(i+json.data[i]);  //=> userbill,pass123456
+                arr.push(i+'='+json.data[i]);//字符串转数组
+            }
+            //console.log(arr);          
+            //console.log(arr.join('&'));//数组转字符串
+            return arr.join('&');
+        }
+    </script>
+</body>
+</html>
